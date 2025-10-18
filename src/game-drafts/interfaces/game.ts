@@ -4,6 +4,7 @@ export type Metadata = Array<[string, Value]>;
 export type Tag = string;
 export type Category = string;
 
+
 export type Distribution = { web: WebBuild } | { native: NativeBuild };
 
 export interface WebBuild {
