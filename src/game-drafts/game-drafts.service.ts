@@ -183,6 +183,4 @@ export class GameDraftsService {
         if (error) throw new InternalServerErrorException(error.message);
         return this.getBuilds(gameId);
     }
-
-
 }
