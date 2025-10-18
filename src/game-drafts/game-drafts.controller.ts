@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { GameDraftsService } from './game-drafts.service';
-import * as game from 'src/common/interfaces/game';
+import type { GameBuilds, GameGeneral, GamePreview } from './interfaces/game';
+
 
 
 @Controller('/api/games/:gameId/drafts')
@@ -28,7 +29,7 @@ export class GameDraftsController {
     }
 
     @Post('general')
-    setGeneral(@Param('gameId') gameId: string, @Body() dto: game.GameGeneral) {
+    setGeneral(@Param('gameId') gameId: string, @Body() dto: GameGeneral) {
         return this.service.setGeneral(gameId, dto);
     }
 
@@ -38,7 +39,7 @@ export class GameDraftsController {
     }
 
     @Post('previews')
-    setPreviews(@Param('gameId') gameId: string, @Body() dto: game.GamePreview) {
+    setPreviews(@Param('gameId') gameId: string, @Body() dto: GamePreview) {
         return this.service.setPreviews(gameId, dto);
     }
 
@@ -48,7 +49,7 @@ export class GameDraftsController {
     }
 
     @Post('builds')
-    setBuilds(@Param('gameId') gameId: string, @Body() dto: game.GameBuilds) {
+    setBuilds(@Param('gameId') gameId: string, @Body() dto: GameBuilds) {
         return this.service.setBuilds(gameId, dto.distributions);
     }
 }
