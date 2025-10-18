@@ -1,0 +1,34 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches-ignore: [ main ]  # Jangan jalan di push ke main (nanti di-handle deploy.yml)
+  pull_request:
+    branches: [ main ]        # Tapi tetap jalan saat PR ke main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run unit tests with coverage
+        run: npm run test:cov
