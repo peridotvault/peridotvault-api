@@ -1,5 +1,5 @@
 export type GameId = string;
-export type Timestamp = number;
+export type Timestamp = string;
 export type Metadata = Array<[string, Value]>;
 export type Tag = string;
 export type Category = string;
@@ -71,8 +71,8 @@ export interface GameDraft {
     is_published?: boolean;
     release_date?: number;
     draft_status?: string;
-    created_at?: number;
-    updated_at?: number;
+    created_at?: Timestamp;
+    updated_at?: Timestamp;
 }
 
 export interface GameGeneral {

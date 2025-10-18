@@ -1,6 +1,6 @@
 import { Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { GameBuilds, GameDraft, GameGeneral, GamePreview, MediaItem } from './interfaces/game';
+import { Distribution, GameBuilds, GameDraft, GameGeneral, GamePreview, MediaItem } from './interfaces/game';
 import { deepMerge } from './utils/game-draft';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class GameDraftsService {
         return data?.draft_json ?? {};
     }
 
-    async upsertWhole(gameId: string, patch: any) {
+    async upsertWhole(gameId: string, patch: GameDraft) {
         const current = await this.getWhole(gameId);
         const merged = deepMerge(current, patch);
 
@@ -77,7 +77,7 @@ export class GameDraftsService {
     }
 
     async setGeneral(gameId: string, body: GameGeneral) {
-        const updates: any = {
+        const updates: GameDraft = {
             ...(body.name !== undefined && { name: body.name }),
             ...(body.description !== undefined && { description: body.description }),
             ...(body.required_age !== undefined && { required_age: body.required_age }),
@@ -87,6 +87,7 @@ export class GameDraftsService {
             ...(body.cover_horizontal_image !== undefined && { cover_horizontal_image: body.cover_horizontal_image }),
             ...(body.banner_image !== undefined && { banner_image: body.banner_image }),
             updated_at: new Date().toISOString(),
+            created_at: new Date().toISOString(),
         };
 
         // upsert baris utama
@@ -171,7 +172,7 @@ export class GameDraftsService {
             .maybeSingle();
 
         if (error) throw new InternalServerErrorException(error.message);
-        return { distributions: (data?.distribution as any[]) ?? [] };
+        return { distributions: (data?.distribution as Distribution[]) ?? [] };
     }
 
     async setBuilds(gameId: string, distributions: GameBuilds['distributions']) {
