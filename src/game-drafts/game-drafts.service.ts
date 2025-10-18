@@ -1,7 +1,7 @@
 import { Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { GameBuilds, GameDraft, GameGeneral, GamePreview, MediaItem } from 'src/common/interfaces/game';
-import { deepMerge } from 'src/common/utils/game-draft';
+import { GameBuilds, GameDraft, GameGeneral, GamePreview, MediaItem } from './interfaces/game';
+import { deepMerge } from './utils/game-draft';
 
 @Injectable()
 export class GameDraftsService {
